@@ -63,10 +63,10 @@ Since this is a fully static project, there are no build tools, dependencies, or
 
 ```bash
 # Clone the repository
-git clone [https://github.com/your-username/laundry-website-portfolio.git](https://github.com/your-username/laundry-website-portfolio.git)
+git clone [https://github.com/mabertha/liana-laundry-website.git]
 
 # Navigate into the project directory
-cd laundry-website-portfolio
+cd liana-laundry-website
 
 # Open index.html directly in your default browser
 # (Or right-click index.html and select "Open with Browser")
