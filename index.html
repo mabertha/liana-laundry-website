@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LianaLaundry — Premium Garment Care</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --ink: #0F1923;
+            --ink-soft: #5C7080;
+            --cream: #F8F7F4;
+            --sky: #C8E6F5;
+            --mint: #2DD4BF;
+            --white: #ffffff;
+            --border: rgba(15,25,35,0.10);
+            --serif: 'Playfair Display', Georgia, serif;
+            --sans: 'Inter', system-ui, sans-serif;
+        }
+
+        html { scroll-behavior: smooth; }
+        body { font-family: var(--sans); background: var(--cream); color: var(--ink); overflow-x: hidden; }
+
+        /* ── NAV ── */
+        nav {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+            padding: 0 2rem;
+            background: rgba(248,247,244,0.88);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            transition: all 0.3s ease;
+        }
+        .nav-inner {
+            max-width: 1200px; margin: 0 auto;
+            display: flex; align-items: center; justify-content: space-between;
+            height: 68px;
+        }
+        .logo {
+            font-family: var(--serif); font-size: 1.25rem; font-weight: 600;
+            color: var(--ink); text-decoration: none; letter-spacing: -0.01em;
+        }
+        .logo span { color: var(--mint); }
+        .nav-links { display: flex; align-items: center; gap: 2rem; list-style: none; }
+        .nav-links a { font-size: 0.875rem; font-weight: 500; color: var(--ink-soft); text-decoration: none; transition: color 0.2s; }
+        .nav-links a:hover { color: var(--ink); }
+        .nav-cta {
+            padding: 0.55rem 1.4rem; background: var(--ink); color: var(--white);
+            border-radius: 100px; font-size: 0.875rem; font-weight: 500;
+            text-decoration: none; transition: opacity 0.2s;
+        }
+        .nav-cta:hover { opacity: 0.82; }
+        .hamburger { display: none; background: none; border: none; cursor: pointer; padding: 6px; }
+        .hamburger span { display: block; width: 22px; height: 1.5px; background: var(--ink); margin: 5px 0; transition: all 0.3s; }
+
+        /* ── HERO ── */
+        .hero {
+            min-height: 100vh; padding: 120px 2rem 80px;
+            display: flex; align-items: center;
+            position: relative; overflow: hidden;
+        }
+        /* Signature element: giant drum circle */
+        .drum {
+            position: absolute;
+            right: -10vw;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 62vw;
+            max-width: 800px;
+            aspect-ratio: 1;
+            border-radius: 50%;
+            background: var(--sky);
+            opacity: 0.55;
+            pointer-events: none;
+            overflow: hidden;      
+            position: relative;    
+        }
+        .drum-inner {
+            position: absolute; inset: 12%;
+            border-radius: 50%;
+            border: 1.5px dashed rgba(15,25,35,0.18);
+        }
+        .drum-inner-2 {
+            position: absolute; inset: 28%;
+            border-radius: 50%;
+            border: 1.5px solid rgba(45,212,191,0.45);
+        }
+
+        .drum-image{
+            position: absolute;
+            top: 50%;
+            left: 50%;
+
+            transform: translate(-50%, -50%);
+
+            width: 280px;
+            z-index: 5;
+    }
+        .hero-content { max-width: 1200px; margin: 0 auto; width: 100%; position: relative; z-index: 2; }
+        .hero-eyebrow {
+            display: inline-flex; align-items: center; gap: 0.5rem;
+            font-size: 0.78rem; font-weight: 500; letter-spacing: 0.12em;
+            color: var(--ink-soft); text-transform: uppercase;
+            margin-bottom: 1.8rem;
+        }
+        .eyebrow-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--mint); }
+        .hero h1 {
+            font-family: var(--serif); font-size: clamp(2.8rem, 5.5vw, 5rem);
+            font-weight: 400; line-height: 1.08; letter-spacing: -0.02em;
+            color: var(--ink); max-width: 680px; margin-bottom: 1.6rem;
+        }
+        .hero h1 em { font-style: italic; color: var(--mint); }
+        .hero p {
+            font-size: 1.05rem; line-height: 1.7; color: var(--ink-soft);
+            max-width: 460px; margin-bottom: 2.5rem; font-weight: 400;
+        }
+        .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+        .btn-dark {
+            padding: 0.85rem 2rem; background: var(--ink); color: var(--white);
+            border-radius: 100px; font-size: 0.9rem; font-weight: 500;
+            text-decoration: none; transition: opacity 0.2s; display: inline-flex; align-items: center; gap: 0.5rem;
+        }
+        .btn-dark:hover { opacity: 0.82; }
+        .btn-ghost {
+            padding: 0.85rem 2rem; background: transparent; color: var(--ink);
+            border-radius: 100px; border: 1px solid var(--border);
+            font-size: 0.9rem; font-weight: 500;
+            text-decoration: none; transition: background 0.2s; display: inline-flex; align-items: center; gap: 0.5rem;
+        }
+        .btn-ghost:hover { background: rgba(15,25,35,0.05); }
+        .hero-stats {
+            margin-top: 5rem; display: flex; gap: 3rem; flex-wrap: wrap;
+        }
+        .stat-item {}
+        .stat-num {
+            font-family: var(--serif); font-size: 2rem; font-weight: 400; color: var(--ink);
+            line-height: 1;
+        }
+        .stat-label { font-size: 0.8rem; color: var(--ink-soft); margin-top: 0.3rem; letter-spacing: 0.04em; }
+
+        /* ── SECTION WRAPPER ── */
+        .section { padding: 100px 2rem; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .section-eyebrow {
+            font-size: 0.75rem; font-weight: 600; letter-spacing: 0.14em;
+            text-transform: uppercase; color: var(--mint); margin-bottom: 1rem;
+        }
+        .section-title {
+            font-family: var(--serif); font-size: clamp(1.8rem, 3vw, 2.8rem);
+            font-weight: 400; line-height: 1.15; letter-spacing: -0.01em;
+            color: var(--ink);
+        }
+        .section-title em { font-style: italic; }
+
+        /* ── FEATURES (Why Us) ── */
+        .features-grid {
+            display: grid; grid-template-columns: repeat(3, 1fr);
+            gap: 1.5px; background: var(--border);
+            border: 1px solid var(--border); border-radius: 20px;
+            overflow: hidden; margin-top: 4rem;
+        }
+        .feature-card {
+            background: var(--white); padding: 2.5rem 2rem;
+            transition: background 0.2s;
+        }
+        .feature-card:hover { background: var(--cream); }
+        .feature-num {
+            font-family: var(--serif); font-size: 2.5rem; font-weight: 400;
+            color: var(--sky); line-height: 1; margin-bottom: 1.5rem;
+        }
+        .feature-card h3 {
+            font-size: 1.05rem; font-weight: 600; margin-bottom: 0.6rem; color: var(--ink);
+        }
+        .feature-card p { font-size: 0.9rem; line-height: 1.65; color: var(--ink-soft); }
+
+        /* ── PROCESS ── */
+        .process-bg { background: var(--ink); }
+        .process-bg .section-eyebrow { color: var(--mint); }
+        .process-bg .section-title { color: var(--white); }
+        .process-grid {
+            display: grid; grid-template-columns: repeat(4, 1fr); gap: 0;
+            margin-top: 4rem; position: relative;
+        }
+        .process-grid::before {
+            content: '';
+            position: absolute; top: 28px; left: 10%; right: 10%; height: 1px;
+            background: rgba(200,230,245,0.18); z-index: 0;
+        }
+        .process-step { text-align: center; padding: 0 1.5rem; position: relative; z-index: 1; }
+        .step-circle {
+            width: 56px; height: 56px; border-radius: 50%;
+            background: rgba(200,230,245,0.12); border: 1px solid rgba(200,230,245,0.25);
+            display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 1.5rem; font-family: var(--serif);
+            font-size: 1.1rem; color: var(--sky);
+        }
+        .process-step h4 { font-size: 0.95rem; font-weight: 600; color: var(--white); margin-bottom: 0.5rem; }
+        .process-step p { font-size: 0.83rem; line-height: 1.6; color: rgba(200,230,245,0.6); }
+
+        /* ── ABOUT ── */
+        .about-grid {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 6rem;
+            align-items: center;
+        }
+        .about-image-wrap {
+            position: relative; aspect-ratio: 4/5; border-radius: 20px; overflow: hidden;
+        }
+        .about-image-wrap img { width: 100%; height: 100%; object-fit: cover; }
+        .about-badge {
+            position: absolute; bottom: 2rem; left: 2rem;
+            background: var(--white); border-radius: 14px;
+            padding: 1rem 1.4rem; box-shadow: 0 4px 24px rgba(15,25,35,0.12);
+        }
+        .about-badge .big { font-family: var(--serif); font-size: 1.8rem; font-weight: 600; color: var(--ink); line-height: 1; }
+        .about-badge .small { font-size: 0.78rem; color: var(--ink-soft); margin-top: 0.25rem; }
+        .about-content { padding-right: 1rem; }
+        .about-content p { font-size: 1rem; line-height: 1.75; color: var(--ink-soft); margin: 1.5rem 0 2.5rem; }
+        .about-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+        .about-stat {
+            padding: 1.4rem; background: var(--white); border-radius: 14px;
+            border: 1px solid var(--border);
+        }
+        .about-stat .num { font-family: var(--serif); font-size: 1.8rem; font-weight: 400; color: var(--ink); }
+        .about-stat .label { font-size: 0.8rem; color: var(--ink-soft); margin-top: 0.25rem; }
+
+        /* ── COMMITMENTS ── */
+        .commit-grid {
+            display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem;
+            margin-top: 4rem;
+        }
+        .commit-card {
+            padding: 2rem; background: var(--white);
+            border: 1px solid var(--border); border-radius: 18px;
+            display: flex; gap: 1.25rem; align-items: flex-start;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        .commit-card:hover { border-color: rgba(45,212,191,0.5); box-shadow: 0 4px 20px rgba(45,212,191,0.08); }
+        .commit-icon {
+            width: 44px; height: 44px; border-radius: 12px; flex-shrink: 0;
+            background: var(--sky); display: flex; align-items: center; justify-content: center;
+            font-size: 1.1rem; color: var(--ink);
+        }
+        .commit-card h4 { font-size: 0.95rem; font-weight: 600; margin-bottom: 0.4rem; color: var(--ink); }
+        .commit-card p { font-size: 0.87rem; line-height: 1.6; color: var(--ink-soft); }
+
+        /* ── CTA BANNER ── */
+        .cta-section {
+            margin: 0 2rem 100px; background: var(--ink);
+            border-radius: 28px; padding: 80px 4rem;
+            text-align: center; position: relative; overflow: hidden;
+        }
+        .cta-glow {
+            position: absolute; width: 50vw; height: 50vw; border-radius: 50%;
+            background: rgba(45,212,191,0.08); top: 50%; left: 50%;
+            transform: translate(-50%, -50%); pointer-events: none;
+        }
+        .cta-section h2 {
+            font-family: var(--serif); font-size: clamp(2rem, 3.5vw, 3.2rem);
+            font-weight: 400; color: var(--white); line-height: 1.15;
+            margin-bottom: 1rem; position: relative;
+        }
+        .cta-section p { font-size: 1rem; color: rgba(200,230,245,0.65); margin-bottom: 2.5rem; position: relative; }
+        .cta-actions { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; position: relative; }
+        .btn-mint {
+            padding: 0.85rem 2rem; background: var(--mint); color: var(--ink);
+            border-radius: 100px; font-size: 0.9rem; font-weight: 600;
+            text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem;
+            transition: opacity 0.2s;
+        }
+        .btn-mint:hover { opacity: 0.88; }
+        .btn-white-ghost {
+            padding: 0.85rem 2rem; background: rgba(255,255,255,0.08);
+            color: var(--white); border: 1px solid rgba(255,255,255,0.18);
+            border-radius: 100px; font-size: 0.9rem; font-weight: 500;
+            text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem;
+            transition: background 0.2s;
+        }
+        .btn-white-ghost:hover { background: rgba(255,255,255,0.15); }
+
+        /* ── FOOTER ── */
+        footer {
+            background: var(--white); border-top: 1px solid var(--border);
+            padding: 60px 2rem 40px;
+        }
+        .footer-inner { max-width: 1200px; margin: 0 auto; }
+        .footer-top {
+            display: grid; grid-template-columns: 2fr 1fr 1fr 1.5fr;
+            gap: 3rem; padding-bottom: 3rem;
+            border-bottom: 1px solid var(--border);
+        }
+        .footer-brand .logo { display: block; margin-bottom: 0.8rem; }
+        .footer-brand p { font-size: 0.875rem; color: var(--ink-soft); line-height: 1.65; }
+        .footer-socials { display: flex; gap: 0.75rem; margin-top: 1.25rem; }
+        .social-btn {
+            width: 36px; height: 36px; border-radius: 8px;
+            border: 1px solid var(--border); display: flex; align-items: center; justify-content: center;
+            color: var(--ink-soft); text-decoration: none; font-size: 0.9rem;
+            transition: border-color 0.2s, color 0.2s;
+        }
+        .social-btn:hover { border-color: var(--ink); color: var(--ink); }
+        .footer-col h5 { font-size: 0.8rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink); margin-bottom: 1rem; }
+        .footer-col ul { list-style: none; }
+        .footer-col li { margin-bottom: 0.55rem; }
+        .footer-col a { font-size: 0.875rem; color: var(--ink-soft); text-decoration: none; transition: color 0.2s; }
+        .footer-col a:hover { color: var(--ink); }
+        .footer-contact li { font-size: 0.875rem; color: var(--ink-soft); display: flex; align-items: flex-start; gap: 0.5rem; margin-bottom: 0.6rem; }
+        .footer-contact i { font-size: 0.8rem; margin-top: 3px; flex-shrink: 0; color: var(--mint); }
+        .footer-bottom {
+            display: flex; align-items: center; justify-content: space-between;
+            padding-top: 1.5rem; flex-wrap: wrap; gap: 1rem;
+        }
+        .footer-bottom p { font-size: 0.82rem; color: var(--ink-soft); }
+        .footer-badge {
+            font-size: 0.78rem; color: var(--ink-soft); display: flex; align-items: center; gap: 0.4rem;
+        }
+
+        /* ── MOBILE ── */
+        @media (max-width: 900px) {
+            .nav-links { display: none; }
+            .hamburger { display: block; }
+            .features-grid { grid-template-columns: 1fr; }
+            .process-grid { grid-template-columns: 1fr 1fr; gap: 2rem; }
+            .process-grid::before { display: none; }
+            .about-grid { grid-template-columns: 1fr; gap: 3rem; }
+            .commit-grid { grid-template-columns: 1fr; }
+            .footer-top { grid-template-columns: 1fr 1fr; gap: 2rem; }
+            .cta-section { padding: 60px 2rem; margin: 0 1rem 60px; }
+        }
+        @media (max-width: 600px) {
+            .hero h1 { font-size: 2.4rem; }
+            .hero-stats { gap: 1.5rem; }
+            .process-grid { grid-template-columns: 1fr; }
+            .footer-top { grid-template-columns: 1fr; }
+            .about-stats { grid-template-columns: 1fr 1fr; }
+            .section { padding: 70px 1.25rem; }
+        }
+
+        /* ── MOBILE MENU ── */
+        .mobile-menu {
+            display: none; position: fixed; inset: 0; z-index: 200;
+            background: var(--cream); padding: 2rem;
+            flex-direction: column; gap: 1rem; justify-content: center; align-items: center;
+        }
+        .mobile-menu.open { display: flex; }
+        .mobile-menu a { font-family: var(--serif); font-size: 1.8rem; font-weight: 400; color: var(--ink); text-decoration: none; }
+        .mobile-close { position: absolute; top: 1.5rem; right: 1.5rem; background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--ink); }
+
+        /* ── FADE IN ── */
+        .fade-up { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
+        .fade-up.visible { opacity: 1; transform: translateY(0); }
+    </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="navbar">
+    <div class="nav-inner">
+        <a href="#" class="logo">Liana<span>Laundry</span></a>
+        <ul class="nav-links">
+            <li><a href="#why-us">Why Us</a></li>
+            <li><a href="#how-it-works">How It Works</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="produk.html">Services</a></li>
+            <li><a href="produk.html" class="nav-cta">Book Now</a></li>
+        </ul>
+        <button class="hamburger" onclick="toggleMenu()" aria-label="Open menu">
+            <span></span><span></span><span></span>
+        </button>
+    </div>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+    <button class="mobile-close" onclick="toggleMenu()"><i class="fas fa-times"></i></button>
+    <a href="#why-us" onclick="toggleMenu()">Why Us</a>
+    <a href="#how-it-works" onclick="toggleMenu()">How It Works</a>
+    <a href="#about" onclick="toggleMenu()">About</a>
+    <a href="produk.html" onclick="toggleMenu()">Services</a>
+    <a href="produk.html" class="btn-mint" onclick="toggleMenu()" style="margin-top:1rem; font-size:1rem;">Book Now</a>
+</div>
+
+<!-- HERO -->
+<section class="hero" id="home">
+   <div class="drum">
+    <div class="drum-inner"></div>
+    <div class="drum-inner-2"></div>
+    <img 
+        src="https://images.unsplash.com/photo-1582735689369-4fe89db7114c?w=700&auto=format&fit=crop"
+        alt="Laundry"
+        style="
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+            opacity: 0.55;
+        "
+    >
+</div>
+    <div class="hero-content">
+        <div class="hero-eyebrow fade-up">
+            <span class="eyebrow-dot"></span>
+            Premium Laundry Care · Est. 2025
+        </div>
+        <h1 class="fade-up">
+            Your wardrobe<br>
+            deserves <em>better</em><br>
+            than average.
+        </h1>
+        <p class="fade-up">Professional garment care with 24-hour turnaround, eco-friendly detergents, and complimentary door-to-door pickup — for people who value their time.</p>
+        <div class="hero-actions fade-up">
+            <a href="produk.html" class="btn-dark"><i class="fas fa-arrow-right"></i> View Services</a>
+            <a href="https://wa.me/62857" class="btn-ghost"><i class="fab fa-whatsapp"></i> Chat on WhatsApp</a>
+        </div>
+        <div class="hero-stats fade-up">
+            <div class="stat-item">
+                <div class="stat-num">5,000+</div>
+                <div class="stat-label">Loyal customers</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-num">4.9★</div>
+                <div class="stat-label">Average rating</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-num">24h</div>
+                <div class="stat-label">Turnaround</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- WHY US -->
+<section class="section" id="why-us">
+    <div class="container">
+        <div class="fade-up">
+            <p class="section-eyebrow">Why choose us</p>
+            <h2 class="section-title">Everything done right,<br><em>every single time.</em></h2>
+        </div>
+        <div class="features-grid fade-up">
+            <div class="feature-card">
+                <div class="feature-num">01</div>
+                <h3>24-Hour Turnaround</h3>
+                <p>Drop off in the morning, pick up by evening. We know your schedule doesn't wait, so neither do we.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-num">02</div>
+                <h3>Premium Fabric Care</h3>
+                <p>Our gentle detergents and temperature-controlled machines extend the life of your garments and keep them vibrant.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-num">03</div>
+                <h3>Free Pickup & Delivery</h3>
+                <p>Schedule a pickup through WhatsApp and we'll handle everything. No hidden fees, no minimum order.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="section process-bg" id="how-it-works">
+    <div class="container">
+        <div class="fade-up">
+            <p class="section-eyebrow">How it works</p>
+            <h2 class="section-title" style="color:#fff;">Four steps to <em>fresh.</em></h2>
+        </div>
+        <div class="process-grid fade-up">
+            <div class="process-step">
+                <div class="step-circle">1</div>
+                <h4>Order via WhatsApp</h4>
+                <p>Tell us what you need — laundry type, quantity, and preferred pickup time.</p>
+            </div>
+            <div class="process-step">
+                <div class="step-circle">2</div>
+                <h4>We pick it up</h4>
+                <p>Our team arrives at your door at the agreed time, no waiting around.</p>
+            </div>
+            <div class="process-step">
+                <div class="step-circle">3</div>
+                <h4>We clean it properly</h4>
+                <p>Modern machines, premium detergents, and trained hands handling every item.</p>
+            </div>
+            <div class="process-step">
+                <div class="step-circle">4</div>
+                <h4>Back at your door</h4>
+                <p>Clean, folded, and delivered — right on schedule, every time.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ABOUT -->
+<section class="section" id="about">
+    <div class="container">
+        <div class="about-grid">
+            <div class="about-image-wrap fade-up">
+                <img src="https://images.unsplash.com/photo-1582735689369-4fe89db7114c?w=700&auto=format&fit=crop" alt="Professional laundry care">
+                <div class="about-badge">
+                    <div class="big">99%</div>
+                    <div class="small">Customer satisfaction</div>
+                </div>
+            </div>
+            <div class="about-content fade-up">
+                <p class="section-eyebrow">Our story</p>
+                <h2 class="section-title">Built for the modern<br><em>East Java lifestyle.</em></h2>
+                <p>LianaLaundry started in 2025 with one goal: to bring genuine, professional garment care to busy households across East Java. We handle over 50,000 garments each month, and every single one gets the same level of attention.</p>
+                <div class="about-stats">
+                    <div class="about-stat">
+                        <div class="num">5K+</div>
+                        <div class="label">Loyal customers</div>
+                    </div>
+                    <div class="about-stat">
+                        <div class="num">50K+</div>
+                        <div class="label">Garments per month</div>
+                    </div>
+                    <div class="about-stat">
+                        <div class="num">24/7</div>
+                        <div class="label">Customer support</div>
+                    </div>
+                    <div class="about-stat">
+                        <div class="num">100%</div>
+                        <div class="label">Satisfaction guarantee</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- COMMITMENTS -->
+<section class="section" style="padding-top:0; background: var(--white);">
+    <div class="container">
+        <div class="fade-up">
+            <p class="section-eyebrow">Our commitments</p>
+            <h2 class="section-title">What we promise<br><em>every order.</em></h2>
+        </div>
+        <div class="commit-grid fade-up">
+            <div class="commit-card">
+                <div class="commit-icon"><i class="fas fa-leaf"></i></div>
+                <div>
+                    <h4>Eco-Friendly Detergents</h4>
+                    <p>Safe for skin, gentle on the environment. We use biodegradable, high-quality cleaning agents in every cycle.</p>
+                </div>
+            </div>
+            <div class="commit-card">
+                <div class="commit-icon"><i class="fas fa-comments"></i></div>
+                <div>
+                    <h4>Responsive Support</h4>
+                    <p>Real humans, fast replies. Our team is available 24/7 on WhatsApp — no bots, no waiting queues.</p>
+                </div>
+            </div>
+            <div class="commit-card">
+                <div class="commit-icon"><i class="fas fa-receipt"></i></div>
+                <div>
+                    <h4>Transparent Pricing</h4>
+                    <p>No hidden fees, ever. The price you see is the price you pay. Full breakdown on every order confirmation.</p>
+                </div>
+            </div>
+            <div class="commit-card">
+                <div class="commit-icon"><i class="fas fa-redo"></i></div>
+                <div>
+                    <h4>Re-Clean Guarantee</h4>
+                    <p>Not satisfied with the result? We'll rewash at no cost until you're happy with every item. No questions asked.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA BANNER -->
+<div class="cta-section fade-up">
+    <div class="cta-glow"></div>
+    <h2>Ready to give your clothes<br>the care they deserve?</h2>
+    <p>First-time customers get 20% off their first order. No code needed — just mention it when you book.</p>
+    <div class="cta-actions">
+        <a href="produk.html" class="btn-mint"><i class="fas fa-arrow-right"></i> See Pricing</a>
+        <a href="https://wa.me/6285707811233" class="btn-white-ghost"><i class="fab fa-whatsapp"></i> WhatsApp Us</a>
+    </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+    <div class="footer-inner">
+        <div class="footer-top">
+            <div class="footer-brand">
+                <a href="#" class="logo">Liana<span>Laundry</span></a>
+                <p>Professional garment care for households across East Java. Trusted by over 5,000 customers since 2025.</p>
+                <div class="footer-socials">
+                    <a href="#" class="social-btn" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-btn" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                    <a href="#" class="social-btn" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+                    <a href="https://wa.me/6285707811233" class="social-btn" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h5>Services</h5>
+                <ul>
+                    <li><a href="produk.html">Wash & Dry</a></li>
+                    <li><a href="produk.html">Wash & Iron</a></li>
+                    <li><a href="produk.html">Express (8h)</a></li>
+                    <li><a href="produk.html">Premium Care</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h5>Company</h5>
+                <ul>
+                    <li><a href="#about">About Us</a></li>
+                    <li><a href="#">Careers</a></li>
+                    <li><a href="#">Partners</a></li>
+                    <li><a href="#">Terms & Privacy</a></li>
+                </ul>
+            </div>
+            <div class="footer-col footer-contact">
+                <h5>Contact</h5>
+                <ul>
+                    <li><i class="fas fa-phone"></i> 0857-0781-1233</li>
+                    <li><i class="fas fa-envelope"></i> hello@lianalaundry.id</li>
+                    <li><i class="fas fa-map-marker-alt"></i> East Java, Indonesia</li>
+                    <li><i class="fas fa-clock"></i> 24/7 support available</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2025 LianaLaundry. All rights reserved.</p>
+            <div class="footer-badge">
+                <i class="fas fa-heart" style="color:var(--mint); font-size:0.7rem;"></i>
+                Made in Indonesia
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script>
+    function toggleMenu() {
+        document.getElementById('mobileMenu').classList.toggle('open');
+    }
+
+    // Fade-up on scroll
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+            if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }
+        });
+    }, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
+    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+    // Staggered hero fade-in
+    document.querySelectorAll('.hero .fade-up').forEach((el, i) => {
+        setTimeout(() => el.classList.add('visible'), 150 + i * 100);
+    });
+
+    // Navbar shadow on scroll
+    window.addEventListener('scroll', () => {
+        const nav = document.getElementById('navbar');
+        nav.style.borderBottomColor = window.scrollY > 30 ? 'rgba(15,25,35,0.12)' : 'transparent';
+    });
+
+    // Close mobile menu on resize
+    window.addEventListener('resize', () => {
+        if (window.innerWidth > 900) document.getElementById('mobileMenu').classList.remove('open');
+    });
+</script>
+</body>
+</html>

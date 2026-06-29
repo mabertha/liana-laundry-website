@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Services & Pricing — LianaLaundry</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --ink: #0F1923;
+            --ink-soft: #5C7080;
+            --cream: #F8F7F4;
+            --sky: #C8E6F5;
+            --mint: #2DD4BF;
+            --white: #ffffff;
+            --border: rgba(15,25,35,0.10);
+            --serif: 'Playfair Display', Georgia, serif;
+            --sans: 'Inter', system-ui, sans-serif;
+        }
+
+        html { scroll-behavior: smooth; }
+        body { font-family: var(--sans); background: var(--cream); color: var(--ink); overflow-x: hidden; }
+
+        /* ── NAV ── */
+        nav {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+            padding: 0 2rem;
+            background: rgba(248,247,244,0.88);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+        }
+        .nav-inner {
+            max-width: 1200px; margin: 0 auto;
+            display: flex; align-items: center; justify-content: space-between;
+            height: 68px;
+        }
+        .logo {
+            font-family: var(--serif); font-size: 1.25rem; font-weight: 600;
+            color: var(--ink); text-decoration: none; letter-spacing: -0.01em;
+        }
+        .logo span { color: var(--mint); }
+        .nav-links { display: flex; align-items: center; gap: 2rem; list-style: none; }
+        .nav-links a { font-size: 0.875rem; font-weight: 500; color: var(--ink-soft); text-decoration: none; transition: color 0.2s; }
+        .nav-links a:hover, .nav-links a.active { color: var(--ink); }
+        .nav-links a.active { position: relative; }
+        .nav-links a.active::after {
+            content: ''; position: absolute; bottom: -4px; left: 0; right: 0;
+            height: 1.5px; background: var(--mint); border-radius: 2px;
+        }
+        .nav-cta {
+            padding: 0.55rem 1.4rem; background: var(--ink); color: var(--white);
+            border-radius: 100px; font-size: 0.875rem; font-weight: 500;
+            text-decoration: none; transition: opacity 0.2s;
+        }
+        .nav-cta:hover { opacity: 0.82; }
+        .hamburger { display: none; background: none; border: none; cursor: pointer; padding: 6px; }
+        .hamburger span { display: block; width: 22px; height: 1.5px; background: var(--ink); margin: 5px 0; }
+
+        /* ── PAGE HEADER ── */
+        .page-header {
+            padding: 140px 2rem 80px;
+            background: var(--cream);
+            position: relative; overflow: hidden;
+        }
+        .header-ring {
+            position: absolute; right: -8vw; top: 50%; transform: translateY(-50%);
+            width: 42vw; max-width: 520px; aspect-ratio: 1;
+            border-radius: 50%; border: 1px solid rgba(200,230,245,0.6);
+            pointer-events: none;
+        }
+        .header-ring-2 {
+            position: absolute; right: -4vw; top: 50%; transform: translateY(-50%);
+            width: 26vw; max-width: 320px; aspect-ratio: 1;
+            border-radius: 50%; background: var(--sky); opacity: 0.4;
+            pointer-events: none;
+        }
+        .header-inner { max-width: 1200px; margin: 0 auto; position: relative; z-index: 2; }
+        .breadcrumb {
+            display: flex; align-items: center; gap: 0.5rem;
+            font-size: 0.8rem; color: var(--ink-soft); margin-bottom: 1.5rem;
+        }
+        .breadcrumb a { color: var(--ink-soft); text-decoration: none; transition: color 0.2s; }
+        .breadcrumb a:hover { color: var(--ink); }
+        .breadcrumb-sep { opacity: 0.4; }
+        .page-header h1 {
+            font-family: var(--serif); font-size: clamp(2.2rem, 4vw, 3.6rem);
+            font-weight: 400; line-height: 1.1; letter-spacing: -0.02em;
+            color: var(--ink); margin-bottom: 1rem;
+        }
+        .page-header h1 em { font-style: italic; color: var(--mint); }
+        .page-header p { font-size: 1rem; line-height: 1.7; color: var(--ink-soft); max-width: 440px; }
+
+        /* ── FILTER TABS ── */
+        .filter-wrap { padding: 0 2rem; }
+        .filter-inner { max-width: 1200px; margin: 0 auto; }
+        .filter-tabs {
+            display: flex; gap: 0.5rem; flex-wrap: wrap;
+            border-bottom: 1px solid var(--border); padding-bottom: 0;
+            margin-bottom: 4rem;
+        }
+        .filter-tab {
+            padding: 0.55rem 1.25rem; font-size: 0.875rem; font-weight: 500;
+            color: var(--ink-soft); background: none; border: none;
+            cursor: pointer; position: relative; transition: color 0.2s;
+            border-bottom: 2px solid transparent; margin-bottom: -1px;
+        }
+        .filter-tab:hover { color: var(--ink); }
+        .filter-tab.active { color: var(--ink); border-bottom-color: var(--mint); }
+
+        /* ── SERVICE GRID ── */
+        .services-section { padding: 0 2rem 100px; }
+        .services-inner { max-width: 1200px; margin: 0 auto; }
+        .services-grid {
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem;
+        }
+        .service-item { transition: opacity 0.3s, transform 0.3s; }
+        .service-item.hidden { opacity: 0; pointer-events: none; display: none; }
+
+        .service-card {
+            background: var(--white); border: 1px solid var(--border);
+            border-radius: 20px; overflow: hidden;
+            transition: border-color 0.25s, box-shadow 0.25s;
+            display: flex; flex-direction: column; height: 100%;
+        }
+        .service-card:hover {
+            border-color: rgba(45,212,191,0.4);
+            box-shadow: 0 8px 32px rgba(45,212,191,0.09);
+        }
+        .service-img {
+            width: 100%; height: 200px; object-fit: cover;
+            display: block;
+        }
+        .service-body { padding: 1.5rem; flex: 1; display: flex; flex-direction: column; }
+
+        .service-tag {
+            display: inline-block; font-size: 0.72rem; font-weight: 600;
+            letter-spacing: 0.08em; text-transform: uppercase;
+            padding: 0.3rem 0.75rem; border-radius: 100px;
+            margin-bottom: 0.75rem;
+        }
+        .tag-popular { background: rgba(45,212,191,0.12); color: #0e9b8a; }
+        .tag-express { background: rgba(239,68,68,0.1); color: #b91c1c; }
+        .tag-premium { background: rgba(200,230,245,0.6); color: #1a5c80; }
+        .tag-rec { background: rgba(15,25,35,0.07); color: var(--ink); }
+
+        .service-card h3 {
+            font-family: var(--serif); font-size: 1.2rem; font-weight: 400;
+            color: var(--ink); margin-bottom: 0.3rem;
+        }
+        .service-meta {
+            font-size: 0.8rem; color: var(--ink-soft); margin-bottom: 1rem;
+            display: flex; align-items: center; gap: 0.35rem;
+        }
+        .service-meta i { color: var(--mint); font-size: 0.75rem; }
+        .service-features { list-style: none; margin-bottom: 1.25rem; flex: 1; }
+        .service-features li {
+            font-size: 0.85rem; color: var(--ink-soft); padding: 0.28rem 0;
+            display: flex; align-items: flex-start; gap: 0.5rem;
+        }
+        .service-features li::before {
+            content: ''; display: block; width: 5px; height: 5px;
+            border-radius: 50%; background: var(--mint); margin-top: 6px; flex-shrink: 0;
+        }
+        .service-footer {
+            display: flex; align-items: flex-end; justify-content: space-between;
+            padding-top: 1rem; border-top: 1px solid var(--border);
+            margin-top: auto;
+        }
+        .price-label { font-size: 0.72rem; color: var(--ink-soft); margin-bottom: 0.15rem; }
+        .price { font-family: var(--serif); font-size: 1.5rem; font-weight: 600; color: var(--ink); line-height: 1; }
+        .price-sub { font-size: 0.72rem; color: var(--ink-soft); margin-top: 0.2rem; }
+        .order-btn {
+            padding: 0.6rem 1.3rem; background: var(--ink); color: var(--white);
+            border-radius: 100px; font-size: 0.82rem; font-weight: 500;
+            text-decoration: none; transition: opacity 0.2s; white-space: nowrap;
+        }
+        .order-btn:hover { opacity: 0.8; }
+
+        /* ── PROMO STRIP ── */
+        .promo-strip {
+            margin: 0 2rem; background: var(--ink); border-radius: 20px;
+            padding: 3rem 3.5rem; display: flex; align-items: center;
+            justify-content: space-between; gap: 2rem; flex-wrap: wrap;
+            margin-bottom: 100px; position: relative; overflow: hidden;
+        }
+        .promo-glow {
+            position: absolute; width: 300px; height: 300px; border-radius: 50%;
+            background: rgba(45,212,191,0.07); right: -50px; top: 50%;
+            transform: translateY(-50%); pointer-events: none;
+        }
+        .promo-strip h3 {
+            font-family: var(--serif); font-size: 1.5rem; font-weight: 400;
+            color: var(--white); margin-bottom: 0.75rem;
+        }
+        .promo-list { list-style: none; }
+        .promo-list li {
+            font-size: 0.875rem; color: rgba(200,230,245,0.7);
+            padding: 0.3rem 0; display: flex; align-items: flex-start; gap: 0.6rem;
+        }
+        .promo-list li::before { content: '→'; color: var(--mint); font-size: 0.8rem; margin-top: 1px; }
+        .btn-mint {
+            padding: 0.85rem 2rem; background: var(--mint); color: var(--ink);
+            border-radius: 100px; font-size: 0.9rem; font-weight: 600;
+            text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem;
+            transition: opacity 0.2s; white-space: nowrap; position: relative;
+        }
+        .btn-mint:hover { opacity: 0.88; }
+
+        /* ── FAQ ── */
+        .faq-section { padding: 0 2rem 100px; }
+        .faq-inner { max-width: 760px; margin: 0 auto; }
+        .section-eyebrow {
+            font-size: 0.75rem; font-weight: 600; letter-spacing: 0.14em;
+            text-transform: uppercase; color: var(--mint); margin-bottom: 1rem;
+        }
+        .section-title {
+            font-family: var(--serif); font-size: clamp(1.8rem, 3vw, 2.6rem);
+            font-weight: 400; line-height: 1.15; letter-spacing: -0.01em;
+            color: var(--ink); margin-bottom: 3rem;
+        }
+        .section-title em { font-style: italic; }
+        .faq-item { border-top: 1px solid var(--border); }
+        .faq-item:last-child { border-bottom: 1px solid var(--border); }
+        .faq-question {
+            width: 100%; background: none; border: none; text-align: left;
+            padding: 1.3rem 0; cursor: pointer;
+            display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+            font-family: var(--sans); font-size: 0.95rem; font-weight: 500;
+            color: var(--ink); transition: color 0.2s;
+        }
+        .faq-question:hover { color: var(--mint); }
+        .faq-icon {
+            width: 28px; height: 28px; border-radius: 50%; flex-shrink: 0;
+            border: 1px solid var(--border); display: flex; align-items: center; justify-content: center;
+            font-size: 0.75rem; color: var(--ink-soft); transition: all 0.3s;
+        }
+        .faq-item.open .faq-icon { background: var(--mint); border-color: var(--mint); color: var(--ink); transform: rotate(45deg); }
+        .faq-answer {
+            font-size: 0.9rem; line-height: 1.7; color: var(--ink-soft);
+            max-height: 0; overflow: hidden; transition: max-height 0.35s ease, padding 0.3s;
+        }
+        .faq-item.open .faq-answer { max-height: 200px; padding-bottom: 1.3rem; }
+
+        /* ── FOOTER ── */
+        footer {
+            background: var(--white); border-top: 1px solid var(--border);
+            padding: 60px 2rem 40px;
+        }
+        .footer-inner { max-width: 1200px; margin: 0 auto; }
+        .footer-top {
+            display: grid; grid-template-columns: 2fr 1fr 1fr 1.5fr;
+            gap: 3rem; padding-bottom: 3rem; border-bottom: 1px solid var(--border);
+        }
+        .footer-brand .logo { display: block; margin-bottom: 0.8rem; }
+        .footer-brand p { font-size: 0.875rem; color: var(--ink-soft); line-height: 1.65; }
+        .footer-socials { display: flex; gap: 0.75rem; margin-top: 1.25rem; }
+        .social-btn {
+            width: 36px; height: 36px; border-radius: 8px;
+            border: 1px solid var(--border); display: flex; align-items: center; justify-content: center;
+            color: var(--ink-soft); text-decoration: none; font-size: 0.9rem;
+            transition: border-color 0.2s, color 0.2s;
+        }
+        .social-btn:hover { border-color: var(--ink); color: var(--ink); }
+        .footer-col h5 { font-size: 0.8rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink); margin-bottom: 1rem; }
+        .footer-col ul { list-style: none; }
+        .footer-col li { margin-bottom: 0.55rem; }
+        .footer-col a { font-size: 0.875rem; color: var(--ink-soft); text-decoration: none; transition: color 0.2s; }
+        .footer-col a:hover { color: var(--ink); }
+        .footer-contact li { font-size: 0.875rem; color: var(--ink-soft); display: flex; align-items: flex-start; gap: 0.5rem; margin-bottom: 0.6rem; }
+        .footer-contact i { font-size: 0.8rem; margin-top: 3px; flex-shrink: 0; color: var(--mint); }
+        .footer-bottom {
+            display: flex; align-items: center; justify-content: space-between;
+            padding-top: 1.5rem; flex-wrap: wrap; gap: 1rem;
+        }
+        .footer-bottom p { font-size: 0.82rem; color: var(--ink-soft); }
+        .footer-badge { font-size: 0.78rem; color: var(--ink-soft); display: flex; align-items: center; gap: 0.4rem; }
+
+        /* ── MOBILE ── */
+        .mobile-menu {
+            display: none; position: fixed; inset: 0; z-index: 200;
+            background: var(--cream); padding: 2rem;
+            flex-direction: column; gap: 1rem; justify-content: center; align-items: center;
+        }
+        .mobile-menu.open { display: flex; }
+        .mobile-menu a { font-family: var(--serif); font-size: 1.8rem; font-weight: 400; color: var(--ink); text-decoration: none; }
+        .mobile-close { position: absolute; top: 1.5rem; right: 1.5rem; background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--ink); }
+
+        .fade-up { opacity: 0; transform: translateY(20px); transition: opacity 0.55s ease, transform 0.55s ease; }
+        .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+        @media (max-width: 1000px) {
+            .services-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 900px) {
+            .nav-links { display: none; }
+            .hamburger { display: block; }
+            .footer-top { grid-template-columns: 1fr 1fr; gap: 2rem; }
+            .promo-strip { padding: 2.5rem 2rem; flex-direction: column; align-items: flex-start; }
+        }
+        @media (max-width: 600px) {
+            .services-grid { grid-template-columns: 1fr; }
+            .footer-top { grid-template-columns: 1fr; }
+            .page-header { padding: 120px 1.5rem 60px; }
+            .services-section, .filter-wrap, .faq-section { padding-left: 1.25rem; padding-right: 1.25rem; }
+            .promo-strip { margin: 0 1rem 60px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+    <div class="nav-inner">
+        <a href="index.html" class="logo">Liana<span>Laundry</span></a>
+        <ul class="nav-links">
+            <li><a href="index.html#why-us">Why Us</a></li>
+            <li><a href="index.html#how-it-works">How It Works</a></li>
+            <li><a href="index.html#about">About</a></li>
+            <li><a href="produk.html" class="active">Services</a></li>
+            <li><a href="produk.html" class="nav-cta">Book Now</a></li>
+        </ul>
+        <button class="hamburger" onclick="toggleMenu()" aria-label="Open menu">
+            <span></span><span></span><span></span>
+        </button>
+    </div>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+    <button class="mobile-close" onclick="toggleMenu()"><i class="fas fa-times"></i></button>
+    <a href="index.html#why-us" onclick="toggleMenu()">Why Us</a>
+    <a href="index.html#how-it-works" onclick="toggleMenu()">How It Works</a>
+    <a href="index.html#about" onclick="toggleMenu()">About</a>
+    <a href="produk.html" onclick="toggleMenu()">Services</a>
+    <a href="https://wa.me/6285707811233" class="btn-mint" onclick="toggleMenu()" style="margin-top:1rem; font-size:1rem;">Book Now</a>
+</div>
+
+<!-- PAGE HEADER -->
+<header class="page-header">
+    <div class="header-ring-2"></div>
+    <div class="header-ring"></div>
+    <div class="header-inner fade-up">
+        <div class="breadcrumb">
+            <a href="index.html">Home</a>
+            <span class="breadcrumb-sep">/</span>
+            <span>Services & Pricing</span>
+        </div>
+        <h1>What we clean,<br>and what it <em>costs.</em></h1>
+        <p>Straightforward pricing, no hidden fees. Every service includes free pickup and delivery within our coverage area.</p>
+    </div>
+</header>
+
+<!-- FILTER -->
+<div class="filter-wrap">
+    <div class="filter-inner">
+        <div class="filter-tabs fade-up">
+            <button class="filter-tab active" data-filter="all">All Services</button>
+            <button class="filter-tab" data-filter="clothing">Clothing</button>
+            <button class="filter-tab" data-filter="premium">Premium</button>
+            <button class="filter-tab" data-filter="specialty">Specialty</button>
+        </div>
+    </div>
+</div>
+
+<!-- SERVICE CARDS -->
+<section class="services-section">
+    <div class="services-inner">
+        <div class="services-grid" id="servicesGrid">
+
+            <!-- Wash & Dry -->
+            <div class="service-item" data-category="clothing">
+                <div class="service-card">
+                    <img src="https://images.unsplash.com/photo-1517677208171-0bc6725a3e60?w=600&auto=format&fit=crop" alt="Wash & Dry" class="service-img">
+                    <div class="service-body">
+                        <span class="service-tag tag-popular">Most Popular</span>
+                        <h3>Wash & Dry</h3>
+                        <p class="service-meta"><i class="fas fa-clock"></i> Ready in 2 days · Neatly folded</p>
+                        <ul class="service-features">
+                            <li>Deep wash cycle with premium detergent</li>
+                            <li>Long-lasting fragrance finish</li>
+                            <li>Neatly folded & packaged</li>
+                            <li>Free plastic wrapping</li>
+                        </ul>
+                        <div class="service-footer">
+                            <div>
+                                <div class="price-label">Starting from</div>
+                                <div class="price">Rp 5.000<span style="font-family:var(--sans);font-size:0.8rem;font-weight:400;color:var(--ink-soft)">/kg</span></div>
+                                <div class="price-sub">Min. 3 kg</div>
+                            </div>
+                            <a href="https://wa.me/6285707811233?text=Hi,%20I'd%20like%20to%20order%20Wash%20%26%20Dry" class="order-btn">Order now</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Wash & Iron -->
+            <div class="service-item" data-category="clothing">
+                <div class="service-card">
+                    <img src="https://images.unsplash.com/photo-1489274495757-95c7c837b101?w=600&auto=format&fit=crop" alt="Wash & Iron" class="service-img">
+                    <div class="service-body">
+                        <span class="service-tag tag-rec">Recommended</span>
+                        <h3>Wash & Iron</h3>
+                        <p class="service-meta"><i class="fas fa-clock"></i> Ready in 3 days · Professionally ironed</p>
+                        <ul class="service-features">
+                            <li>Full wash + professional ironing</li>
+                            <li>Long-lasting fresh scent</li>
+                            <li>Complimentary hangers</li>
+                            <li>Ready to wear, straight from the bag</li>
+                        </ul>
+                        <div class="service-footer">
+                            <div>
+                                <div class="price-label">Starting from</div>
+                                <div class="price">Rp 7.000<span style="font-family:var(--sans);font-size:0.8rem;font-weight:400;color:var(--ink-soft)">/kg</span></div>
+                                <div class="price-sub">Min. 3 kg</div>
+                            </div>
+                            <a href="https://wa.me/6285707811233?text=Hi,%20I'd%20like%20to%20order%20Wash%20%26%20Iron" class="order-btn">Order now</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Express -->
+            <div class="service-item" data-category="clothing premium">
+                <div class="service-card">
+                    <img src="https://images.unsplash.com/photo-1604335399105-a0c585fd81a1?w=600&auto=format&fit=crop" alt="Express" class="service-img">
+                    <div class="service-body">
+                        <span class="service-tag tag-express">24-Hour Express</span>
+                        <h3>Express Service</h3>
+                        <p class="service-meta"><i class="fas fa-clock"></i> Ready in 24 hours · Priority handling</p>
+                        <ul class="service-features">
+                            <li>Priority queue, handled first</li>
+                            <li>Full wash + premium ironing</li>
+                            <li>On-time delivery guarantee</li>
+                            <li>Real-time status updates via WhatsApp</li>
+                        </ul>
+                        <div class="service-footer">
+                            <div>
+                                <div class="price-label">Starting from</div>
+                                <div class="price">Rp 10.000<span style="font-family:var(--sans);font-size:0.8rem;font-weight:400;color:var(--ink-soft)">/kg</span></div>
+                                <div class="price-sub">Min. 2 kg</div>
+                            </div>
+                            <a href="https://wa.me/6285707811233?text=Hi,%20I'd%20like%20to%20order%20Express%20Service" class="order-btn">Order now</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Shoe Cleaning -->
+            <div class="service-item" data-category="specialty premium">
+                <div class="service-card">
+                    <img src="https://images.unsplash.com/photo-1610557892470-55d9e80c0bce?w=600&auto=format&fit=crop" alt="Shoe Cleaning" class="service-img">
+                    <div class="service-body">
+                        <span class="service-tag tag-premium">Premium Care</span>
+                        <h3>Shoe Cleaning</h3>
+                        <p class="service-meta"><i class="fas fa-clock"></i> Ready in 3 days · Deep clean</p>
+                        <ul class="service-features">
+                            <li>Deep clean for all shoe types</li>
+                            <li>Material-specific treatment</li>
+                            <li>Optional repaint & restoration</li>
+                            <li>Waterproofing available (add-on)</li>
+                        </ul>
+                        <div class="service-footer">
+                            <div>
+                                <div class="price-label">Starting from</div>
+                                <div class="price">Rp 25.000<span style="font-family:var(--sans);font-size:0.8rem;font-weight:400;color:var(--ink-soft)">/pair</span></div>
+                                <div class="price-sub">Sneakers / Casual</div>
+                            </div>
+                            <a href="https://wa.me/6285707811233?text=Hi,%20I'd%20like%20to%20order%20Shoe%20Cleaning" class="order-btn">Order now</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Carpet Cleaning -->
+            <div class="service-item" data-category="specialty">
+                <div class="service-card">
+                    <img src="https://images.unsplash.com/photo-1631679706909-1844bbd07221?w=600&auto=format&fit=crop" alt="Carpet Cleaning" class="service-img">
+                    <div class="service-body">
+                        <h3>Carpet Cleaning</h3>
+                        <p class="service-meta"><i class="fas fa-clock"></i> Ready in 4 days · Full refresh</p>
+                        <ul class="service-features">
+                            <li>Vacuum + thorough wet wash</li>
+                            <li>Stubborn stain removal</li>
+                            <li>Anti-mite & antibacterial treatment</li>
+                            <li>Long-lasting fresh scent</li>
+                        </ul>
+                        <div class="service-footer">
+                            <div>
+                                <div class="price-label">Starting from</div>
+                                <div class="price">Rp 15.000<span style="font-family:var(--sans);font-size:0.8rem;font-weight:400;color:var(--ink-soft)">/m²</span></div>
+                                <div class="price-sub">All carpet types</div>
+                            </div>
+                            <a href="https://wa.me/6285707811233?text=Hi,%20I'd%20like%20to%20order%20Carpet%20Cleaning" class="order-btn">Order now</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stuffed Toys -->
+            <div class="service-item" data-category="specialty">
+                <div class="service-card">
+                    <img src="https://images.unsplash.com/photo-1540574163026-643ea20ade25?w=600&auto=format&fit=crop" alt="Stuffed Toys" class="service-img">
+                    <div class="service-body">
+                        <h3>Stuffed Toys</h3>
+                        <p class="service-meta"><i class="fas fa-clock"></i> Ready in 3 days · Gentle care</p>
+                        <ul class="service-features">
+                            <li>Gentle wash cycle, no shape distortion</li>
+                            <li>Child-safe, hypoallergenic fragrance</li>
+                            <li>Fluffed and re-shaped after cleaning</li>
+                            <li>Safe for sensitive skin</li>
+                        </ul>
+                        <div class="service-footer">
+                            <div>
+                                <div class="price-label">Starting from</div>
+                                <div class="price">Rp 20.000<span style="font-family:var(--sans);font-size:0.8rem;font-weight:400;color:var(--ink-soft)">/pcs</span></div>
+                                <div class="price-sub">Size S – M</div>
+                            </div>
+                            <a href="https://wa.me/6285707811233?text=Hi,%20I'd%20like%20to%20order%20Stuffed%20Toy%20Cleaning" class="order-btn">Order now</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Blankets -->
+            <div class="service-item" data-category="specialty">
+                <div class="service-card">
+                    <img src="https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?w=600&auto=format&fit=crop" alt="Blankets" class="service-img">
+                    <div class="service-body">
+                        <h3>Blanket Washing</h3>
+                        <p class="service-meta"><i class="fas fa-clock"></i> Ready in 3 days · Soft & fluffy</p>
+                        <ul class="service-features">
+                            <li>Works for thick and thin blankets</li>
+                            <li>Premium fabric softener treatment</li>
+                            <li>Anti-bacterial & anti-mite rinse</li>
+                            <li>Returns soft, fluffy, and fresh</li>
+                        </ul>
+                        <div class="service-footer">
+                            <div>
+                                <div class="price-label">Starting from</div>
+                                <div class="price">Rp 30.000<span style="font-family:var(--sans);font-size:0.8rem;font-weight:400;color:var(--ink-soft)">/pcs</span></div>
+                                <div class="price-sub">Single / Double</div>
+                            </div>
+                            <a href="https://wa.me/6285707811233?text=Hi,%20I'd%20like%20to%20order%20Blanket%20Washing" class="order-btn">Order now</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bags -->
+            <div class="service-item" data-category="specialty premium">
+                <div class="service-card">
+                    <img src="https://images.unsplash.com/photo-1590874103328-eac38a683ce7?w=600&auto=format&fit=crop" alt="Bags" class="service-img">
+                    <div class="service-body">
+                        <span class="service-tag tag-premium">Premium</span>
+                        <h3>Bag Cleaning</h3>
+                        <p class="service-meta"><i class="fas fa-clock"></i> Ready in 3–4 days · Expert care</p>
+                        <ul class="service-features">
+                            <li>All bag types (backpacks, totes, clutch)</li>
+                            <li>Deep clean + sanitize inside and out</li>
+                            <li>Material-specific handling</li>
+                            <li>Leather conditioning available (add-on)</li>
+                        </ul>
+                        <div class="service-footer">
+                            <div>
+                                <div class="price-label">Starting from</div>
+                                <div class="price">Rp 35.000<span style="font-family:var(--sans);font-size:0.8rem;font-weight:400;color:var(--ink-soft)">/pcs</span></div>
+                                <div class="price-sub">Backpack / Tote</div>
+                            </div>
+                            <a href="https://wa.me/6285707811233?text=Hi,%20I'd%20like%20to%20order%20Bag%20Cleaning" class="order-btn">Order now</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Curtains -->
+            <div class="service-item" data-category="specialty">
+                <div class="service-card">
+                    <img src="https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=600&auto=format&fit=crop" alt="Curtains" class="service-img">
+                    <div class="service-body">
+                        <h3>Curtain Washing</h3>
+                        <p class="service-meta"><i class="fas fa-clock"></i> Ready in 4–5 days · Full refresh</p>
+                        <ul class="service-features">
+                            <li>All curtain types and fabrics</li>
+                            <li>Dust, odor, and stain removal</li>
+                            <li>Anti-mold & antibacterial treatment</li>
+                            <li>Ironed, folded, and packed neatly</li>
+                        </ul>
+                        <div class="service-footer">
+                            <div>
+                                <div class="price-label">Starting from</div>
+                                <div class="price">Rp 18.000<span style="font-family:var(--sans);font-size:0.8rem;font-weight:400;color:var(--ink-soft)">/m²</span></div>
+                                <div class="price-sub">Per square meter</div>
+                            </div>
+                            <a href="https://wa.me/6285707811233?text=Hi,%20I'd%20like%20to%20order%20Curtain%20Washing" class="order-btn">Order now</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- PROMO STRIP -->
+<div class="promo-strip fade-up">
+    <div class="promo-glow"></div>
+    <div>
+        <h3>Current offers</h3>
+        <ul class="promo-list">
+            <li>20% off your first order — mention it when you book (min. 5 kg)</li>
+            <li>Free delivery within 3 km radius, no minimum order</li>
+            <li>Wash 10 kg, get 1 kg free — for returning customers</li>
+            <li>6-hour express available in select areas — ask us first</li>
+        </ul>
+    </div>
+    <a href="https://wa.me/6285707811233?text=Hi,%20I'd%20like%20to%20know%20more%20about%20current%20promos" class="btn-mint">
+        <i class="fab fa-whatsapp"></i> Chat with us
+    </a>
+</div>
+
+<!-- FAQ -->
+<section class="faq-section">
+    <div class="faq-inner">
+        <p class="section-eyebrow fade-up">Common questions</p>
+        <h2 class="section-title fade-up">Things people ask<br><em>before they book.</em></h2>
+
+        <div class="faq-item fade-up">
+            <button class="faq-question" onclick="toggleFaq(this)">
+                How do I place an order?
+                <span class="faq-icon"><i class="fas fa-plus"></i></span>
+            </button>
+            <div class="faq-answer">It's simple — message us on WhatsApp, tell us which service you need, how much you have, and your preferred pickup time. Our team will confirm and come to you.</div>
+        </div>
+        <div class="faq-item fade-up">
+            <button class="faq-question" onclick="toggleFaq(this)">
+                Is there a minimum order requirement?
+                <span class="faq-icon"><i class="fas fa-plus"></i></span>
+            </button>
+            <div class="faq-answer">Yes. Wash & Dry and Wash & Iron have a minimum of 3 kg. The Express service requires at least 2 kg. Specialty items (shoes, bags, blankets, etc.) are priced per piece with no weight minimum.</div>
+        </div>
+        <div class="faq-item fade-up">
+            <button class="faq-question" onclick="toggleFaq(this)">
+                How long does each service take?
+                <span class="faq-icon"><i class="fas fa-plus"></i></span>
+            </button>
+            <div class="faq-answer">Wash & Dry takes 2 days, Wash & Iron 3 days, and Express is done in 24 hours. Specialty services like shoes, carpets, and curtains take 3–5 days depending on the item. Exact times are confirmed when you book.</div>
+        </div>
+        <div class="faq-item fade-up">
+            <button class="faq-question" onclick="toggleFaq(this)">
+                Are the detergents safe for sensitive skin?
+                <span class="faq-icon"><i class="fas fa-plus"></i></span>
+            </button>
+            <div class="faq-answer">Yes. We use biodegradable, skin-safe detergents for all our standard services. For children's clothing and stuffed toys, we use hypoallergenic formulas by default.</div>
+        </div>
+        <div class="faq-item fade-up">
+            <button class="faq-question" onclick="toggleFaq(this)">
+                What if I'm not satisfied with the result?
+                <span class="faq-icon"><i class="fas fa-plus"></i></span>
+            </button>
+            <div class="faq-answer">We'll re-clean it at no charge. Our satisfaction guarantee means you don't pay for a result that doesn't meet the standard. Just let us know within 24 hours of delivery.</div>
+        </div>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+    <div class="footer-inner">
+        <div class="footer-top">
+            <div class="footer-brand">
+                <a href="index.html" class="logo">Liana<span>Laundry</span></a>
+                <p>Professional garment care for households across East Java. Trusted by over 5,000 customers since 2025.</p>
+                <div class="footer-socials">
+                    <a href="#" class="social-btn" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-btn" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                    <a href="#" class="social-btn" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+                    <a href="https://wa.me/6285707811233" class="social-btn" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h5>Services</h5>
+                <ul>
+                    <li><a href="#">Wash & Dry</a></li>
+                    <li><a href="#">Wash & Iron</a></li>
+                    <li><a href="#">Express (24h)</a></li>
+                    <li><a href="#">Shoe Cleaning</a></li>
+                    <li><a href="#">Carpet & Curtains</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h5>Company</h5>
+                <ul>
+                    <li><a href="index.html#about">About Us</a></li>
+                    <li><a href="#">Careers</a></li>
+                    <li><a href="#">Partners</a></li>
+                    <li><a href="#">Terms & Privacy</a></li>
+                </ul>
+            </div>
+            <div class="footer-col footer-contact">
+                <h5>Contact</h5>
+                <ul>
+                    <li><i class="fas fa-phone"></i> 0857-0781-1233</li>
+                    <li><i class="fas fa-envelope"></i> hello@lianalaundry.id</li>
+                    <li><i class="fas fa-map-marker-alt"></i> East Java, Indonesia</li>
+                    <li><i class="fas fa-clock"></i> 24/7 support available</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2025 LianaLaundry. All rights reserved.</p>
+            <div class="footer-badge">
+                <i class="fas fa-heart" style="color:var(--mint); font-size:0.7rem;"></i>
+                Made in Indonesia
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script>
+    function toggleMenu() {
+        document.getElementById('mobileMenu').classList.toggle('open');
+    }
+
+    // Filter tabs
+    const tabs = document.querySelectorAll('.filter-tab');
+    const items = document.querySelectorAll('.service-item');
+
+    tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            tabs.forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+
+            const filter = tab.dataset.filter;
+            items.forEach(item => {
+                const cats = item.dataset.category.split(' ');
+                const show = filter === 'all' || cats.includes(filter);
+                if (show) {
+                    item.style.display = '';
+                    requestAnimationFrame(() => { item.style.opacity = '1'; item.style.transform = ''; });
+                } else {
+                    item.style.opacity = '0';
+                    item.style.transform = 'translateY(16px)';
+                    setTimeout(() => { item.style.display = 'none'; }, 280);
+                }
+            });
+        });
+    });
+
+    // FAQ accordion
+    function toggleFaq(btn) {
+        const item = btn.closest('.faq-item');
+        const isOpen = item.classList.contains('open');
+        document.querySelectorAll('.faq-item.open').forEach(el => el.classList.remove('open'));
+        if (!isOpen) item.classList.add('open');
+    }
+
+    // Scroll animations
+    const observer = new IntersectionObserver(entries => {
+        entries.forEach(e => {
+            if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }
+        });
+    }, { threshold: 0.08, rootMargin: '0px 0px -50px 0px' });
+    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+    // Stagger service cards
+    items.forEach((item, i) => {
+        item.style.transitionDelay = `${i * 50}ms`;
+        observer.observe(item);
+        item.classList.add('fade-up');
+    });
+
+    // Header fade
+    setTimeout(() => document.querySelector('.page-header .fade-up').classList.add('visible'), 100);
+</script>
+</body>
+</html>

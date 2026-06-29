@@ -1,0 +1,49 @@
+/*
+ * style.css — LianaLaundry
+ * All core styles are self-contained in each page's <style> block.
+ * This file exists for any shared overrides or future additions.
+ */
+
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    --ink: #0F1923;
+    --ink-soft: #5C7080;
+    --cream: #F8F7F4;
+    --sky: #C8E6F5;
+    --mint: #2DD4BF;
+    --white: #ffffff;
+    --border: rgba(15, 25, 35, 0.10);
+    --serif: 'Playfair Display', Georgia, serif;
+    --sans: 'Inter', system-ui, sans-serif;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: var(--sans);
+    background: var(--cream);
+    color: var(--ink);
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+    background: var(--sky);
+    color: var(--ink);
+}
+
+img {
+    display: block;
+    max-width: 100%;
+}
+
+a {
+    color: inherit;
+}
